@@ -6,17 +6,19 @@ import QuizList from './containers/QuizList/QuizList'
 import Auth from './containers/Auth/Auth'
 import QuizCreacte from './containers/QuizCreacte/QuizCreacte'
 
-function App() {
-  return (
+class App extends React.Component {
+   render() {
+     return (
      <Layout>
         <Switch>
            <Route path='/auth' component ={Auth}/>
            <Route path='/quiz-creator ' component ={QuizCreacte}/>
            <Route path='/quiz/:id' component ={Quiz}/>
-           <Route path='/' component ={QuizList}/>
+           <Route path='/' component ={QuizCreacte}/>
+
         </Switch>
      </Layout>
   );
-}
-
-export default App;
+}}
+//QuizList  QuizCreacte
+export default App
