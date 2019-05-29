@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import  classes  from './Auth.module.css';
 import Button from '../../components/UI/Botton/Botton'
 import Input from '../../components/UI/input/input'
+import axios from 'axios'
+import { async } from 'q';
 
 function validateEmail(email) {
   var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -10,42 +12,65 @@ function validateEmail(email) {
 
 export default class Auth extends Component {
 
-  state ={
-    isFormValue:false,
+  state = {
+    isFormValid: false,
     formControls: {
       email: {
         value: '',
-        type: 'password',
-        label: 'Пароль',
-        errorMessage:'ВВедите корректный пароль',
+        type: 'email',
+        label: 'Email',
+        errorMessage: 'Введите корректный email',
         valid: false,
-        tauched:false,
-          validation:{
-            required: true,
-            minLength:6
-          }
+        touched: false,
+        validation: {
+          required: true,
+          email: true
+        }
       },
       password: {
         value: '',
-        type: 'email',
-        label: 'Email',
-        errorMessage:'ВВедите корректный email',
+        type: 'password',
+        label: 'Пароль',
+        errorMessage: 'Введите корректный пароль',
         valid: false,
-        tauched:false,
-          validation:{
-            required: true,
-            email: true
-          }
+        touched: false,
+        validation: {
+          required: true,
+          minLength: 6
+        }
       }
     }
   }
 
-  loginHandler=()=>{
-
+  loginHandler= async()=>{
+    const authData = {
+      email: this.state.formControls.email.value,
+      password:this.state.formControls.password.value,
+      returnSecureToken: true
+    }  
+    try {
+      const response =  await axios.post('https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyBniUrYV8Zbmz4SVEklTbFu3enMFWJKW1U', authData)
+      console.log(response.data);
+   } catch (error) {
+     console.log(error);
+   }
   }
 
-registerHandler=()=>{
+registerHandler= async ()=>{
+  const authData = {
+    email: this.state.formControls.email.value,
+    password:this.state.formControls.password.value,
+    returnSecureToken: true
+  }
 
+  try {
+     const response =  await axios.post('https://www.googleapis.com/identitytoolkit/v3/relyingparty/signupNewUser?key=AIzaSyBniUrYV8Zbmz4SVEklTbFu3enMFWJKW1U', authData)
+     console.log(response.data);
+  } catch (error) {
+    console.log(error);
+  }
+
+ 
 }
 
 submitHandler=(event)=> {
@@ -72,7 +97,7 @@ validateControl(value, validation) {
 
 onChangeHandler=(event,controlName)=>{
   
-
+ 
   const formControls = {...this.state.formControls}
   
   const control = {...formControls[controlName]}
@@ -99,6 +124,7 @@ renderInputs() {
   return Object.keys(this.state.formControls).map((controlName, index)=> {
     const control = this.state.formControls[controlName]
     return (
+      
       <Input
       key={controlName + index}
       type={control.type}

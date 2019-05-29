@@ -10,12 +10,11 @@ class App extends React.Component {
    render() {
      return (
      <Layout>
-        <Switch>
-           <Route path='/auth' component ={Auth}/>
-           <Route path='/quiz-creator ' component ={QuizCreacte}/>
-           <Route path='/quiz/:id' component ={Quiz}/>
-           <Route path='/' component ={QuizCreacte}/>
-
+     <Switch>
+          <Route path="/auth" component={Auth} />
+          <Route path="/quiz-creactor" component={QuizCreacte} />
+          <Route path="/quiz/:id" component={Quiz} />
+          <Route path="/" component={QuizList} />
         </Switch>
      </Layout>
   );

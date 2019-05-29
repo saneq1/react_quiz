@@ -19,6 +19,7 @@ const Input = (props) => {
   return (
     <div className={cls.join(' ')}>
       <label htmlFor=''>{props.label}</label>
+      
       <input 
       type={inputType}
       id={htmlFor}
